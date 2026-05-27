@@ -5,6 +5,11 @@ export interface User {
   balance: number;
 }
 
+export interface AuthResponse {
+  token: string;
+  user: User;
+}
+
 export interface Holding {
   symbol: string;
   quantity: number;
@@ -23,9 +28,9 @@ export interface Portfolio {
 export interface Transaction {
   id: number;
   symbol: string;
-  type: 'buy' | 'sell';
+  type: 'BUY' | 'SELL';
   quantity: number;
-  price_at_execution: number;
+  execution_price: number;
   total_value: number;
   created_at: string;
 }
@@ -38,6 +43,25 @@ export interface Stock {
 export interface StockQuote {
   symbol: string;
   price: number;
+  change?: number;
+  change_percent?: number;
+  open?: number | null;
+  high?: number | null;
+  low?: number | null;
+  prev_close?: number | null;
+  fifty_two_week_high?: number | null;
+  fifty_two_week_low?: number | null;
+  volume?: number | null;
+  sparkline?: number[];
+  returns?: {
+    six_month?: number | null;
+    one_year?: number | null;
+  };
+  company_name?: string;
+  sector?: string | null;
+  exchange?: string | null;
+  currency?: string;
+  logo_url?: string | null;
 }
 
 export interface TradePayload {
@@ -59,6 +83,7 @@ export interface PerformanceSnapshot {
   date: string;
   value: number;
   cash_balance: number;
+  stock_value?: number;
 }
 
 export interface AnalyticsSummary {
