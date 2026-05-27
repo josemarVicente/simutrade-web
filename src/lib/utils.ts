@@ -25,7 +25,7 @@ export function formatPercent(value: number): string {
 }
 
 export function getPnlColor(value: number): string {
-  if (value > 0) return 'text-green-400';
-  if (value < 0) return 'text-red-400';
+  if (value > 0) return 'text-emerald-400';
+  if (value < 0) return 'text-rose-400';
   return 'text-zinc-400';
 }
