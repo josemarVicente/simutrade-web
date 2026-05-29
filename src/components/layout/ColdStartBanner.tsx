@@ -1,4 +1,3 @@
-// src/components/ui/ColdStartBanner.tsx
 'use client';
 
 import { useColdStart } from '@/hooks/useColdStart';

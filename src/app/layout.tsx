@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'SimuTrade — Paper Trading Simulator',
-  description: 'Practice stock trading with $100,000 in virtual cash',
+  description: 'Practice stock trading with $10,000 in virtual cash',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
