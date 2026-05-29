@@ -1,0 +1,190 @@
+{
+  "common": {
+    "appName": "SimuTrade",
+    "tagline": "Paper trading • educational mode",
+    "loading": "Loading…",
+    "cached": "cached",
+    "menu": "Menu",
+    "view": "View",
+    "user": "User",
+    "dash": "—"
+  },
+  "locale": {
+    "label": "Language",
+    "en": "English",
+    "pt": "Português"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "portfolio": "Portfolio",
+    "analytics": "Analytics",
+    "tradeDesk": "Trade desk"
+  },
+  "header": {
+    "balance": "Balance"
+  },
+  "userMenu": {
+    "defaultName": "User",
+    "virtualBalance": "Virtual balance",
+    "loggingOut": "Signing out…",
+    "logout": "Sign out"
+  },
+  "marketStatus": {
+    "loading": "Market update…",
+    "unknown": "Market update: n/a",
+    "open": "Market update: open",
+    "closed": "Market update: closed"
+  },
+  "search": {
+    "ariaLabel": "Search stocks",
+    "placeholder": "Search stocks (e.g. AAPL, TSLA)…",
+    "searching": "Searching…",
+    "noResults": "No results for “{query}”.",
+    "unavailableTitle": "Search unavailable",
+    "unavailableDesc": "Could not search stocks."
+  },
+  "auth": {
+    "loginTitle": "Sign in to your account",
+    "loginButton": "Sign in",
+    "loginFailed": "Login failed",
+    "loginFailedDesc": "Invalid email or password.",
+    "noAccount": "Don't have an account?",
+    "createAccount": "Create account",
+    "registerTitle": "Create a paper trading account",
+    "registerButton": "Create account",
+    "registerFailed": "Registration failed",
+    "registerFailedDesc": "Could not create account.",
+    "registerSuccess": "Account created",
+    "registerSuccessDesc": "You can now sign in and start simulating trades.",
+    "hasAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "virtualCapital": "Virtual capital",
+    "virtualCapitalHint": "Set in the users.balance migration (POST /api/register does not accept a custom balance).",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "confirmPassword": "Confirm Password"
+  },
+  "dashboard": {
+    "loading": "Loading dashboard…"
+  },
+  "ticker": {
+    "cachedQuotes": "Cached quotes",
+    "syncTitle": "Indices syncing",
+    "syncDesc": "The market ticker appears after the first quote refresh.",
+    "exploreSpy": "Explore SPY",
+    "errorTitle": "Failed to load ticker",
+    "errorDesc": "Could not load market data."
+  },
+  "overview": {
+    "title": "Market overview",
+    "cached": "cached",
+    "trade": "Trade {symbol}",
+    "chartUnavailableTitle": "Chart unavailable",
+    "chartUnavailableDesc": "Intraday data has not synced yet. Explore a stock to view quotes and trade.",
+    "exploreAapl": "Explore AAPL",
+    "trades": "Trades",
+    "volume": "Volume",
+    "totalValue": "Total value"
+  },
+  "featured": {
+    "title": "Featured",
+    "dayOpen": "Day open",
+    "dayHigh": "Day high",
+    "dayLow": "Day low",
+    "weekRange": "52 week range",
+    "sixMonth": "6 Month",
+    "oneYear": "1 Year",
+    "tradeCta": "Buy / Sell"
+  },
+  "strength": {
+    "title": "Strength meter",
+    "subtitle": "Positive stocks vs. sample",
+    "breadth": "Breadth",
+    "stocksCount": "{count} stocks",
+    "positive": "Positive",
+    "negative": "Negative"
+  },
+  "topMovers": {
+    "title": "Top value list",
+    "subtitle": "Click an instrument to open the trading desk.",
+    "loading": "Loading instruments…",
+    "emptyTitle": "No market ranking yet",
+    "emptyDesc": "When the quote cache updates, you'll see the most active stocks here.",
+    "exploreNvda": "View NVDA"
+  },
+  "sectors": {
+    "title": "Today's Value",
+    "subtitle": "Breakdown by sector (approximate weight).",
+    "emptyTitle": "Sectors pending",
+    "emptyDesc": "Sector breakdown appears after the first market sync. Your portfolio is still available under Portfolio.",
+    "goPortfolio": "Go to Portfolio"
+  },
+  "portfolio": {
+    "loading": "Loading portfolio…",
+    "title": "Portfolio",
+    "subtitle": "Your positions and transaction history.",
+    "netValue": "Net value",
+    "holdings": "Holdings",
+    "positions": "{count} positions",
+    "noHoldings": "You have no holdings yet. Use search to find a stock.",
+    "symbol": "Symbol",
+    "shares": "Shares",
+    "avgBuyPrice": "Avg buy price",
+    "currentPrice": "Current price",
+    "value": "Value",
+    "unrealizedPnl": "Unrealized PnL",
+    "pnlPct": "PnL %",
+    "transactions": "Transactions",
+    "noTransactions": "No transactions yet.",
+    "type": "Type",
+    "quantity": "Qty",
+    "price": "Price",
+    "total": "Total",
+    "date": "Date",
+    "prev": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}"
+  },
+  "stocks": {
+    "invalidSymbolTitle": "Invalid symbol",
+    "invalidSymbolDesc": "Could not identify the stock. Return to the dashboard and pick an instrument.",
+    "backDashboard": "Back to dashboard",
+    "price": "Price",
+    "loadingQuote": "Loading…",
+    "quoteUnavailableTitle": "Quote unavailable",
+    "quoteUnavailableDesc": "Could not fetch data for {symbol}. Try again in a moment.",
+    "tryAapl": "Try AAPL",
+    "intradaySyncTitle": "Intraday history syncing",
+    "intradaySyncDesc": "The quote is available, but the mini-chart only appears after the first market cache update (sparkline).",
+    "sparklineLabel": "Recent sessions (sparkline)",
+    "details": "Details",
+    "exchange": "Exchange",
+    "sector": "Sector",
+    "currency": "Currency",
+    "trade": "Trade",
+    "owned": "owned",
+    "buy": "Buy",
+    "sell": "Sell",
+    "cash": "Cash",
+    "orderValue": "Order value",
+    "quantityLabel": "Quantity",
+    "buyButton": "Buy",
+    "sellButton": "Sell",
+    "waitQuote": "Wait for the quote before submitting the order.",
+    "orderBlocked": "Order blocked",
+    "orderExecuted": "Order executed",
+    "orderFailed": "Failed to execute order",
+    "orderFailedDesc": "Could not execute the order.",
+    "invalidQty": "Invalid quantity.",
+    "insufficientCash": "Insufficient balance for this purchase.",
+    "insufficientShares": "You cannot sell more than you own."
+  },
+  "coldStart": {
+    "message": "Waking up the server, first load may take up to 60 seconds…"
+  },
+  "dataTable": {
+    "loading": "Loading…",
+    "empty": "No data."
+  }
+}

@@ -1,25 +1,31 @@
 'use client';
 
 import { useEffect, useMemo } from 'react';
+import Link from 'next/link';
+import { LineChart } from 'lucide-react';
 import { useToast } from '@/components/ui/Toast';
 import { getApiErrorMessage } from '@/lib/apiErrors';
 import { useMarketTicker } from '@/hooks/useMarket';
 import Sparkline from '@/components/charts/Sparkline';
 import Badge from '@/components/ui/Badge';
+import EmptyState from '@/components/ui/EmptyState';
+
+import { useTranslation } from '@/providers/I18nProvider';
 
 export default function MarketTickerStrip() {
   const toast = useToast();
   const ticker = useMarketTicker();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (ticker.isError) {
       toast.push({
         variant: 'danger',
-        title: 'Erro ao carregar ticker',
-        description: getApiErrorMessage(ticker.error, 'Não foi possível carregar o mercado.'),
+        title: t('ticker.errorTitle'),
+        description: getApiErrorMessage(ticker.error, t('ticker.errorDesc')),
       });
     }
-  }, [ticker.isError, ticker.error, toast]);
+  }, [ticker.isError, ticker.error, toast, t]);
 
   const items = useMemo(() => ticker.data?.items ?? [], [ticker.data?.items]);
 
@@ -28,10 +34,10 @@ export default function MarketTickerStrip() {
       <div className="mx-auto max-w-7xl px-4 py-3 lg:px-8">
         {ticker.data?.stale ? (
           <div className="mb-2">
-            <Badge variant="neutral">stale quotes</Badge>
+            <Badge variant="neutral">{t('ticker.cachedQuotes')}</Badge>
           </div>
         ) : null}
-        <div className="flex items-stretch gap-3 overflow-x-auto">
+        <div className="flex items-stretch gap-3 overflow-x-auto pb-1">
           {ticker.isLoading ? (
             <>
               {Array.from({ length: 4 }).map((_, idx) => (
@@ -47,15 +53,29 @@ export default function MarketTickerStrip() {
               ))}
             </>
           ) : items.length === 0 ? (
-            <div className="text-sm text-zinc-500 py-2">Sem dados para o ticker.</div>
+            <EmptyState
+              icon={<LineChart size={24} strokeWidth={1.5} />}
+              title={t('ticker.syncTitle')}
+              description={t('ticker.syncDesc')}
+              action={{ label: t('ticker.exploreSpy'), href: '/stocks/SPY' }}
+            />
           ) : (
             items.map((it) => {
               const positive = it.change_percent >= 0;
               const trendClass = positive ? 'text-emerald-400' : 'text-rose-400';
+              const sparkValues =
+                it.sparkline?.length >= 2
+                  ? it.sparkline
+                  : [
+                      it.price / (1 + (it.change_percent || 0) / 100),
+                      it.price,
+                    ];
+
               return (
-                <div
+                <Link
                   key={it.symbol}
-                  className="min-w-[190px] rounded-2xl border border-zinc-800 bg-[#121212]/70 p-4"
+                  href={`/stocks/${it.symbol}`}
+                  className="min-w-[190px] rounded-2xl border border-zinc-800 bg-[#121212]/70 p-4 transition-colors hover:border-zinc-700 hover:bg-[#121212]"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <div className="min-w-0">
@@ -73,9 +93,13 @@ export default function MarketTickerStrip() {
                   </div>
 
                   <div className="mt-2">
-                    <Sparkline values={it.sparkline} stroke={positive ? '#10b981' : '#f43f5e'} height={34} />
+                    <Sparkline
+                      values={sparkValues}
+                      stroke={positive ? '#10b981' : '#f43f5e'}
+                      height={34}
+                    />
                   </div>
-                </div>
+                </Link>
               );
             })
           )}
@@ -84,4 +108,3 @@ export default function MarketTickerStrip() {
     </section>
   );
 }
-

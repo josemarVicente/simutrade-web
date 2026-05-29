@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import QueryProvider from '@/providers/QueryProvider';
+import I18nProvider from '@/providers/I18nProvider';
 import { ToastProvider } from '@/components/ui/Toast';
 import ThemeProvider from '@/providers/ThemeProvider';
 import './globals.css';
@@ -20,11 +21,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${geist.className} ${geistMono.variable} bg-zinc-950 text-zinc-100 antialiased`}>
-        <QueryProvider>
-          <ThemeProvider>
-            <ToastProvider>{children}</ToastProvider>
-          </ThemeProvider>
-        </QueryProvider>
+        <I18nProvider>
+          <QueryProvider>
+            <ThemeProvider>
+              <ToastProvider>{children}</ToastProvider>
+            </ThemeProvider>
+          </QueryProvider>
+        </I18nProvider>
       </body>
     </html>
   );

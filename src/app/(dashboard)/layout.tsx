@@ -8,9 +8,12 @@ import MarketTickerStrip from '@/components/market/MarketTickerStrip';
 import { useUser } from '@/hooks/useAuth';
 import { ColdStartBanner } from '@/components/layout/ColdStartBanner';
 
+import { useTranslation } from '@/providers/I18nProvider';
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router      = useRouter();
   const { data: user, isLoading, isError } = useUser();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!isLoading && isError) {
@@ -21,7 +24,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (isLoading) {
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
-        <div className="text-zinc-500 text-sm">Loading...</div>
+        <div className="text-zinc-500 text-sm">{t('common.loading')}</div>
       </div>
     );
   }
@@ -32,7 +35,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="min-h-screen bg-[#0b0f14]">
       <div className="flex min-h-screen">
         <Sidebar />
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col lg:ml-64">
           <AppHeader />
           <MarketTickerStrip />
           <main className="mx-auto w-full max-w-7xl px-4 py-8 lg:px-8">

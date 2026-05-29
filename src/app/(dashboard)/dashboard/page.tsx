@@ -9,9 +9,12 @@ import StrengthGaugeCard from '@/components/market/StrengthGaugeCard';
 import TopMoversTable from '@/components/market/TopMoversTable';
 import SectorBreakdown from '@/components/market/SectorBreakdown';
 
+import { useTranslation } from '@/providers/I18nProvider';
+
 export default function DashboardPage() {
   const { data: portfolio, isLoading } = usePortfolio();
   const dash = useDashboardInsight();
+  const { t } = useTranslation();
 
   const featuredSymbol = useMemo(() => {
     const holdings = portfolio?.holdings ?? [];
@@ -22,29 +25,25 @@ export default function DashboardPage() {
   return (
     <div className="space-y-4">
       {isLoading || dash.isLoading ? (
-        <div className="text-sm text-zinc-500">A carregar dashboard…</div>
+        <div className="text-sm text-zinc-500">{t('dashboard.loading')}</div>
       ) : null}
 
-      <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 lg:col-span-8">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-12 lg:items-start">
+        <div className="flex flex-col gap-4 lg:col-span-6 xl:col-span-6">
           <MarketOverviewPanel
             initialTickerItems={dash.data?.ticker.items}
             initialOverview={dash.data?.overview}
           />
+          <SectorBreakdown initialSectors={dash.data?.sectors} />
         </div>
 
-        <div className="col-span-12 lg:col-span-4 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 lg:col-span-3 xl:col-span-3">
           <FeaturedQuoteCard symbol={featuredSymbol} initialQuote={dash.data?.featured} />
           <StrengthGaugeCard initialStrength={dash.data?.strength} />
         </div>
-      </div>
 
-      <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-12 lg:col-span-7">
+        <div className="lg:col-span-3 xl:col-span-3 lg:sticky lg:top-28 lg:self-start">
           <TopMoversTable initialMovers={dash.data?.top_movers} />
-        </div>
-        <div className="col-span-12 lg:col-span-5">
-          <SectorBreakdown initialSectors={dash.data?.sectors} />
         </div>
       </div>
     </div>

@@ -73,16 +73,20 @@ export type MarketStatus = {
   session?: string | null;
 };
 
-export function useMarketTicker() {
+export function useMarketTicker(options?: { enabled?: boolean }) {
   return useQuery<MarketTickerResponse>({
     queryKey: ['market-ticker'],
     queryFn: () => api.get('/api/market/ticker').then((r) => r.data),
     staleTime: 30_000,
     retry: 0,
+    enabled: options?.enabled ?? true,
   });
 }
 
-export function useMarketOverview(symbol?: string) {
+export function useMarketOverview(
+  symbol?: string,
+  options?: { enabled?: boolean }
+) {
   return useQuery<MarketOverviewResponse>({
     queryKey: ['market-overview', symbol ?? 'default'],
     queryFn: () => {
@@ -91,36 +95,39 @@ export function useMarketOverview(symbol?: string) {
         .get('/api/market/overview', s ? { params: { symbol: s } } : undefined)
         .then((r) => r.data);
     },
-    enabled: true,
+    enabled: options?.enabled ?? true,
     staleTime: 30_000,
     retry: 0,
   });
 }
 
-export function useMarketStrength() {
+export function useMarketStrength(options?: { enabled?: boolean }) {
   return useQuery<MarketStrengthResponse>({
     queryKey: ['market-strength'],
     queryFn: () => api.get('/api/market/strength').then((r) => r.data),
     staleTime: 30_000,
     retry: 0,
+    enabled: options?.enabled ?? true,
   });
 }
 
-export function useTopMovers() {
+export function useTopMovers(options?: { enabled?: boolean }) {
   return useQuery<TopMoversResponse>({
     queryKey: ['market-top-movers'],
     queryFn: () => api.get('/api/market/top-movers').then((r) => r.data),
     staleTime: 30_000,
     retry: 0,
+    enabled: options?.enabled ?? true,
   });
 }
 
-export function useMarketSectors() {
+export function useMarketSectors(options?: { enabled?: boolean }) {
   return useQuery<SectorsResponse>({
     queryKey: ['market-sectors'],
     queryFn: () => api.get('/api/market/sectors').then((r) => r.data),
     staleTime: 60_000,
     retry: 0,
+    enabled: options?.enabled ?? true,
   });
 }
 

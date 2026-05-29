@@ -8,10 +8,12 @@ import Badge from '@/components/ui/Badge';
 import { useStockSearchResults } from '@/hooks/useStockSearch';
 import { getApiErrorMessage } from '@/lib/apiErrors';
 import { useToast } from '@/components/ui/Toast';
+import { useTranslation } from '@/providers/I18nProvider';
 
 export default function StockSearch() {
   const router = useRouter();
   const toast = useToast();
+  const { t } = useTranslation();
   const [value, setValue] = useState('');
   const [open, setOpen] = useState(false);
   const [debounced, setDebounced] = useState('');
@@ -38,11 +40,11 @@ export default function StockSearch() {
     if (results.isError) {
       toast.push({
         variant: 'danger',
-        title: 'Pesquisa indisponível',
-        description: getApiErrorMessage(results.error, 'Não foi possível pesquisar ações.'),
+        title: t('search.unavailableTitle'),
+        description: getApiErrorMessage(results.error, t('search.unavailableDesc')),
       });
     }
-  }, [results.isError, results.error, toast]);
+  }, [results.isError, results.error, toast, t]);
 
   const items = useMemo(() => results.data ?? [], [results.data]);
 
@@ -53,8 +55,8 @@ export default function StockSearch() {
           <Search size={16} />
         </div>
         <Input
-          aria-label="Pesquisar ações"
-          placeholder="Pesquisar ações (ex: AAPL, TSLA)…"
+          aria-label={t('search.ariaLabel')}
+          placeholder={t('search.placeholder')}
           value={value}
           onFocus={() => setOpen(true)}
           onChange={(e) => {
@@ -69,9 +71,11 @@ export default function StockSearch() {
         <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-40 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 shadow-xl">
           <div className="max-h-[320px] overflow-auto">
             {results.isLoading ? (
-              <div className="px-4 py-3 text-sm text-zinc-500">A pesquisar…</div>
+              <div className="px-4 py-3 text-sm text-zinc-500">{t('search.searching')}</div>
             ) : items.length === 0 ? (
-              <div className="px-4 py-3 text-sm text-zinc-500">Sem resultados para “{debounced}”.</div>
+              <div className="px-4 py-3 text-sm text-zinc-500">
+                {t('search.noResults', { query: debounced })}
+              </div>
             ) : (
               <ul className="divide-y divide-zinc-900">
                 {items.map((s) => (
@@ -88,7 +92,7 @@ export default function StockSearch() {
                         <p className="font-mono text-sm font-semibold text-zinc-100">{s.symbol}</p>
                         <p className="truncate text-sm text-zinc-500">{s.company_name}</p>
                       </div>
-                      <Badge variant="neutral">ver</Badge>
+                      <Badge variant="neutral">{t('common.view')}</Badge>
                     </button>
                   </li>
                 ))}
@@ -100,4 +104,3 @@ export default function StockSearch() {
     </div>
   );
 }
-

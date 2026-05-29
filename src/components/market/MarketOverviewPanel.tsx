@@ -1,8 +1,11 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import Link from 'next/link';
+import { BarChart3, ExternalLink } from 'lucide-react';
 import Card from '@/components/ui/Card';
 import Badge from '@/components/ui/Badge';
+import EmptyState from '@/components/ui/EmptyState';
 import Tabs from '@/components/ui/Tabs';
 import type { MarketOverviewResponse, MarketTickerItem } from '@/hooks/useMarket';
 import { useMarketOverview, useMarketTicker } from '@/hooks/useMarket';
@@ -16,9 +19,41 @@ import {
   CartesianGrid,
 } from 'recharts';
 import { formatCurrency } from '@/lib/utils';
+import { useTranslation } from '@/providers/I18nProvider';
 
 function getTrendColor(changePercent: number) {
   return changePercent >= 0 ? '#10b981' : '#f43f5e';
+}
+
+function buildChartPoints(
+  points: MarketOverviewResponse['points'],
+  sparkline: number[] | undefined,
+  price: number | undefined
+) {
+  if (points.length >= 2) return points;
+  if (sparkline && sparkline.length >= 2) {
+    return sparkline.map((close, i) => ({
+      time: `${i}`,
+      close,
+      volume: 0,
+    }));
+  }
+  if (price != null && price > 0) {
+    return [
+      { time: '0', close: price, volume: 0 },
+      { time: '1', close: price, volume: 0 },
+    ];
+  }
+  return [];
+}
+
+function StatCell({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="flex flex-1 flex-col gap-1 border-r border-zinc-800 px-4 py-3 last:border-r-0">
+      <p className="text-[11px] uppercase tracking-wide text-zinc-500">{label}</p>
+      <p className="font-mono text-sm text-zinc-100">{value}</p>
+    </div>
+  );
 }
 
 export default function MarketOverviewPanel({
@@ -28,55 +63,102 @@ export default function MarketOverviewPanel({
   initialTickerItems?: MarketTickerItem[];
   initialOverview?: MarketOverviewResponse;
 }) {
-  const ticker = useMarketTicker();
+  const { t } = useTranslation();
+  const tickerItems = initialTickerItems ?? [];
+  const ticker = useMarketTicker({ enabled: !tickerItems.length });
+
+  const items = ticker.data?.items ?? tickerItems;
+
   const tabs = useMemo(
     () =>
-      (ticker.data?.items ?? initialTickerItems ?? []).map((it) => ({
+      items.map((it) => ({
         value: it.symbol,
         label: it.label,
       })),
-    [ticker.data?.items, initialTickerItems]
+    [items]
   );
 
-  const [selected, setSelected] = useState<string>(initialOverview?.symbol ?? '');
+  const [selected, setSelected] = useState<string>(initialOverview?.symbol ?? items[0]?.symbol ?? 'SPY');
 
   useEffect(() => {
-    if (!selected && ticker.data?.items?.[0]?.symbol) {
-      setSelected(ticker.data.items[0].symbol);
+    if (!selected && items[0]?.symbol) {
+      setSelected(items[0].symbol);
     }
-  }, [selected, ticker.data?.items]);
+  }, [selected, items]);
 
-  const overview = useMarketOverview(selected || undefined);
+  const overview = useMarketOverview(selected || undefined, {
+    enabled: Boolean(selected),
+  });
 
-  const chartData = overview.data?.points ?? initialOverview?.points ?? [];
-  const changePercent = overview.data?.change_percent ?? initialOverview?.change_percent ?? 0;
+  const activeItem = items.find((it) => it.symbol === selected);
+  const overviewData =
+    overview.data && overview.data.symbol === selected
+      ? overview.data
+      : selected === initialOverview?.symbol
+        ? initialOverview
+        : overview.data;
+
+  const price = overviewData?.price ?? activeItem?.price;
+  const changePercent = overviewData?.change_percent ?? activeItem?.change_percent ?? 0;
   const trendColor = getTrendColor(changePercent);
+  const chartData = buildChartPoints(
+    overviewData?.points ?? [],
+    activeItem?.sparkline,
+    price
+  );
+
+  const summary = overviewData?.summary;
+  const isStale = overviewData?.stale ?? ticker.data?.stale;
 
   return (
     <Card className="h-full">
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="text-xs font-medium text-zinc-400">Market overview</p>
-          <div className="mt-2">
-            {ticker.isLoading ? (
-              <div className="h-10 w-full animate-pulse rounded-xl bg-zinc-800" />
-            ) : tabs.length ? (
-              <Tabs items={tabs.slice(0, 4)} value={selected} onValueChange={setSelected} />
-            ) : null}
-          </div>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-xs font-medium uppercase tracking-wide text-zinc-500">{t('overview.title')}</p>
+          {price != null ? (
+            <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <p className="font-mono text-2xl text-zinc-100">{formatCurrency(price)}</p>
+              <p className={`font-mono text-sm ${changePercent >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                {changePercent >= 0 ? '+' : ''}
+                {changePercent.toFixed(2)}%
+              </p>
+            </div>
+          ) : null}
         </div>
-        {overview.data?.stale ?? initialOverview?.stale ? <Badge variant="neutral">stale</Badge> : null}
+        <div className="flex items-center gap-2">
+          {isStale ? <Badge variant="neutral">{t('overview.cached')}</Badge> : null}
+          {selected ? (
+            <Link
+              href={`/stocks/${selected}`}
+              className="inline-flex items-center gap-1 rounded-lg border border-zinc-800 px-2.5 py-1.5 text-xs text-zinc-300 transition-colors hover:border-zinc-700 hover:text-zinc-100"
+            >
+              {t('overview.trade', { symbol: selected })}
+              <ExternalLink size={12} />
+            </Link>
+          ) : null}
+        </div>
       </div>
 
-      <div className="mt-4 h-[260px]">
-        {overview.isLoading && !initialOverview ? (
+      <div className="mt-4">
+        {ticker.isLoading && !items.length ? (
+          <div className="h-10 w-full animate-pulse rounded-xl bg-zinc-800" />
+        ) : tabs.length ? (
+          <Tabs items={tabs.slice(0, 4)} value={selected} onValueChange={setSelected} />
+        ) : null}
+      </div>
+
+      <div className="mt-4 h-[260px] min-w-0">
+        {overview.isLoading && !overviewData ? (
           <div className="h-full animate-pulse rounded-xl bg-zinc-900" />
         ) : chartData.length < 2 ? (
-          <div className="flex h-full items-center justify-center text-sm text-zinc-500">
-            Sem dados suficientes.
-          </div>
+          <EmptyState
+            icon={<BarChart3 size={28} strokeWidth={1.5} />}
+            title={t('overview.chartUnavailableTitle')}
+            description={t('overview.chartUnavailableDesc')}
+            action={{ label: t('overview.exploreAapl'), href: '/stocks/AAPL' }}
+          />
         ) : (
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={200}>
             <AreaChart data={chartData}>
               <CartesianGrid stroke="rgba(148,163,184,0.10)" strokeDasharray="3 3" />
               <XAxis
@@ -91,7 +173,8 @@ export default function MarketOverviewPanel({
                 axisLine={false}
                 tickLine={false}
                 width={70}
-                tickFormatter={(v) => `$${(v / 1000).toFixed(1)}k`}
+                domain={['auto', 'auto']}
+                tickFormatter={(v) => `$${Number(v).toFixed(0)}`}
               />
               <Tooltip
                 contentStyle={{
@@ -117,31 +200,18 @@ export default function MarketOverviewPanel({
         )}
       </div>
 
-      <div className="mt-4 grid grid-cols-3 gap-2">
-        <div className="rounded-xl border border-zinc-800 bg-[#121212]/40 p-3">
-          <p className="text-xs text-zinc-500">Trades</p>
-          <p className="mt-1 font-mono text-sm text-zinc-100">
-            {overview.data?.summary.total_trade ?? initialOverview?.summary.total_trade ?? '—'}
-          </p>
-        </div>
-        <div className="rounded-xl border border-zinc-800 bg-[#121212]/40 p-3">
-          <p className="text-xs text-zinc-500">Volume</p>
-          <p className="mt-1 font-mono text-sm text-zinc-100">
-            {overview.data?.summary.total_volume ?? initialOverview?.summary.total_volume ?? '—'}
-          </p>
-        </div>
-        <div className="rounded-xl border border-zinc-800 bg-[#121212]/40 p-3">
-          <p className="text-xs text-zinc-500">Total value</p>
-          <p className="mt-1 font-mono text-sm text-zinc-100">
-            {(overview.data?.summary.total_value ?? initialOverview?.summary.total_value) != null
-              ? formatCurrency(
-                  Number(overview.data?.summary.total_value ?? initialOverview?.summary.total_value) * 1_000_000
-                )
-              : '—'}
-          </p>
-        </div>
+      <div className="mt-4 flex overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950/50">
+        <StatCell label={t('overview.trades')} value={summary?.total_trade ?? t('common.dash')} />
+        <StatCell label={t('overview.volume')} value={summary?.total_volume?.toLocaleString() ?? t('common.dash')} />
+        <StatCell
+          label={t('overview.totalValue')}
+          value={
+            summary?.total_value != null
+              ? formatCurrency(Number(summary.total_value) * 1_000_000)
+              : t('common.dash')
+          }
+        />
       </div>
     </Card>
   );
 }
-

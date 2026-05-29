@@ -20,11 +20,14 @@ export function useStockSearchResults(query: string) {
   });
 }
 
-export function useStockQuote(symbol: string) {
+export function useStockQuote(symbol: string, options?: { enabled?: boolean }) {
+  const normalized = symbol?.trim().toUpperCase() ?? '';
+  const valid = normalized.length > 0 && normalized !== 'UNDEFINED';
+
   return useQuery<StockQuote>({
-    queryKey: ['quote', symbol],
-    queryFn: () => api.get(`/api/stocks/quote/${symbol}`).then((r) => r.data),
-    refetchInterval: 30000,
-    enabled: !!symbol,
+    queryKey: ['quote', normalized],
+    queryFn: () => api.get(`/api/stocks/quote/${normalized}`).then((r) => r.data),
+    refetchInterval: 30_000,
+    enabled: valid && (options?.enabled ?? true),
   });
 }

@@ -1,9 +1,11 @@
 'use client';
 
 import { useColdStart } from '@/hooks/useColdStart';
+import { useTranslation } from '@/providers/I18nProvider';
 
 export function ColdStartBanner() {
   const isWakingUp = useColdStart();
+  const { t } = useTranslation();
 
   if (!isWakingUp) return null;
 
@@ -13,7 +15,7 @@ export function ColdStartBanner() {
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amber-400 opacity-75" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-amber-400" />
       </span>
-      Waking up the server, first load may take up to 60 seconds…
+      {t('coldStart.message')}
     </div>
   );
 }

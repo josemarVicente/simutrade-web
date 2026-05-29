@@ -16,12 +16,14 @@ export default function DataTable<T>({
   rowKey,
   isLoading,
   emptyState = 'Sem dados.',
+  onRowClick,
 }: {
   columns: DataTableColumn<T>[];
   data: T[];
   rowKey: (row: T) => string | number;
   isLoading?: boolean;
   emptyState?: ReactNode;
+  onRowClick?: (row: T) => void;
 }) {
   return (
     <div className="overflow-x-auto">
@@ -57,7 +59,14 @@ export default function DataTable<T>({
             </tr>
           ) : (
             data.map((row) => (
-              <tr key={rowKey(row)} className="border-b border-zinc-900 last:border-0">
+              <tr
+                key={rowKey(row)}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                className={[
+                  'border-b border-zinc-900 last:border-0',
+                  onRowClick ? 'cursor-pointer transition-colors hover:bg-zinc-900/60' : '',
+                ].join(' ')}
+              >
                 {columns.map((c) => (
                   <td
                     key={c.key}

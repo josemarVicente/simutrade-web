@@ -1,0 +1,190 @@
+{
+  "common": {
+    "appName": "SimuTrade",
+    "tagline": "Paper trading • modo educativo",
+    "loading": "A carregar…",
+    "cached": "cache",
+    "menu": "Menu",
+    "view": "ver",
+    "user": "Utilizador",
+    "dash": "—"
+  },
+  "locale": {
+    "label": "Idioma",
+    "en": "English",
+    "pt": "Português"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "portfolio": "Portfolio",
+    "analytics": "Analytics",
+    "tradeDesk": "Mesa de trading"
+  },
+  "header": {
+    "balance": "Saldo"
+  },
+  "userMenu": {
+    "defaultName": "Utilizador",
+    "virtualBalance": "Saldo virtual",
+    "loggingOut": "A sair…",
+    "logout": "Terminar sessão"
+  },
+  "marketStatus": {
+    "loading": "Mercado…",
+    "unknown": "Mercado: n/d",
+    "open": "Mercado: aberto",
+    "closed": "Mercado: fechado"
+  },
+  "search": {
+    "ariaLabel": "Pesquisar ações",
+    "placeholder": "Pesquisar ações (ex: AAPL, TSLA)…",
+    "searching": "A pesquisar…",
+    "noResults": "Sem resultados para “{query}”.",
+    "unavailableTitle": "Pesquisa indisponível",
+    "unavailableDesc": "Não foi possível pesquisar ações."
+  },
+  "auth": {
+    "loginTitle": "Entrar na sua conta",
+    "loginButton": "Entrar",
+    "loginFailed": "Falha no login",
+    "loginFailedDesc": "Email ou password inválidos.",
+    "noAccount": "Não tem conta?",
+    "createAccount": "Criar conta",
+    "registerTitle": "Criar conta de paper trading",
+    "registerButton": "Criar conta",
+    "registerFailed": "Falha no registo",
+    "registerFailedDesc": "Não foi possível criar a conta.",
+    "registerSuccess": "Conta criada",
+    "registerSuccessDesc": "Agora pode fazer login para começar a simular trades.",
+    "hasAccount": "Já tem conta?",
+    "signIn": "Entrar",
+    "virtualCapital": "Capital virtual",
+    "virtualCapitalHint": "Definido na migration users.balance (POST /api/register não aceita saldo customizado).",
+    "email": "Email",
+    "password": "Password",
+    "name": "Nome",
+    "confirmPassword": "Confirmar password"
+  },
+  "dashboard": {
+    "loading": "A carregar dashboard…"
+  },
+  "ticker": {
+    "cachedQuotes": "Cotações em cache",
+    "syncTitle": "Índices a sincronizar",
+    "syncDesc": "O ticker de mercado aparece após a primeira atualização de cotações.",
+    "exploreSpy": "Explorar SPY",
+    "errorTitle": "Erro ao carregar ticker",
+    "errorDesc": "Não foi possível carregar o mercado."
+  },
+  "overview": {
+    "title": "Market overview",
+    "cached": "cache",
+    "trade": "Trade {symbol}",
+    "chartUnavailableTitle": "Gráfico indisponível",
+    "chartUnavailableDesc": "Os dados intraday ainda não foram sincronizados. Explora uma ação para ver cotações e operar.",
+    "exploreAapl": "Explorar AAPL",
+    "trades": "Trades",
+    "volume": "Volume",
+    "totalValue": "Total value"
+  },
+  "featured": {
+    "title": "Destaque",
+    "dayOpen": "Day open",
+    "dayHigh": "Day high",
+    "dayLow": "Day low",
+    "weekRange": "52 week range",
+    "sixMonth": "6 Month",
+    "oneYear": "1 Year",
+    "tradeCta": "Comprar / Vender"
+  },
+  "strength": {
+    "title": "Strength meter",
+    "subtitle": "Ações positivas vs. amostra",
+    "breadth": "Breadth",
+    "stocksCount": "{count} ações",
+    "positive": "Positive",
+    "negative": "Negative"
+  },
+  "topMovers": {
+    "title": "Top value list",
+    "subtitle": "Clica num instrumento para abrir a mesa de trading.",
+    "loading": "A carregar instrumentos…",
+    "emptyTitle": "Ainda sem ranking de mercado",
+    "emptyDesc": "Quando o cache de cotações for atualizado, verás aqui as ações com maior atividade.",
+    "exploreNvda": "Ver NVDA"
+  },
+  "sectors": {
+    "title": "Today's Value",
+    "subtitle": "Breakdown por sector (peso aproximado).",
+    "emptyTitle": "Sectores por calcular",
+    "emptyDesc": "O breakdown por sector aparece depois da primeira sincronização de mercado. O teu portfolio continua disponível na secção Portfolio.",
+    "goPortfolio": "Ir para Portfolio"
+  },
+  "portfolio": {
+    "loading": "A carregar portfolio…",
+    "title": "Portfolio",
+    "subtitle": "As suas posições e histórico de transações.",
+    "netValue": "Valor líquido",
+    "holdings": "Holdings",
+    "positions": "{count} posições",
+    "noHoldings": "Ainda não tem holdings. Use a pesquisa para encontrar uma ação.",
+    "symbol": "Símbolo",
+    "shares": "Shares",
+    "avgBuyPrice": "Preço médio compra",
+    "currentPrice": "Preço atual",
+    "value": "Valor",
+    "unrealizedPnl": "PnL não realizado",
+    "pnlPct": "PnL %",
+    "transactions": "Transações",
+    "noTransactions": "Ainda sem transações.",
+    "type": "Tipo",
+    "quantity": "Qtd",
+    "price": "Preço",
+    "total": "Total",
+    "date": "Data",
+    "prev": "Anterior",
+    "next": "Seguinte",
+    "page": "Página {current} de {total}"
+  },
+  "stocks": {
+    "invalidSymbolTitle": "Símbolo inválido",
+    "invalidSymbolDesc": "Não foi possível identificar a ação. Volta ao dashboard e escolhe um instrumento.",
+    "backDashboard": "Voltar ao dashboard",
+    "price": "Preço",
+    "loadingQuote": "A carregar…",
+    "quoteUnavailableTitle": "Cotação indisponível",
+    "quoteUnavailableDesc": "Não foi possível obter dados para {symbol}. Tenta novamente dentro de instantes.",
+    "tryAapl": "Tentar AAPL",
+    "intradaySyncTitle": "Histórico intraday em sincronização",
+    "intradaySyncDesc": "A cotação está disponível, mas o mini-gráfico só aparece depois da primeira atualização de mercado (sparkline em cache).",
+    "sparklineLabel": "Últimas sessões (sparkline)",
+    "details": "Detalhes",
+    "exchange": "Exchange",
+    "sector": "Sector",
+    "currency": "Currency",
+    "trade": "Trade",
+    "owned": "owned",
+    "buy": "Buy",
+    "sell": "Sell",
+    "cash": "Cash",
+    "orderValue": "Order value",
+    "quantityLabel": "Quantidade",
+    "buyButton": "Comprar",
+    "sellButton": "Vender",
+    "waitQuote": "Aguarda a cotação antes de enviar a ordem.",
+    "orderBlocked": "Ordem bloqueada",
+    "orderExecuted": "Ordem executada",
+    "orderFailed": "Falha ao executar ordem",
+    "orderFailedDesc": "Não foi possível executar a ordem.",
+    "invalidQty": "Quantidade inválida.",
+    "insufficientCash": "Saldo insuficiente para essa compra.",
+    "insufficientShares": "Não pode vender mais do que possui."
+  },
+  "coldStart": {
+    "message": "A acordar o servidor, a primeira carga pode demorar até 60 segundos…"
+  },
+  "dataTable": {
+    "loading": "A carregar…",
+    "empty": "Sem dados."
+  }
+}

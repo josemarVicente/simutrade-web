@@ -5,12 +5,15 @@ import Link from 'next/link';
 import { useLogin } from '@/hooks/useAuth';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
+import LocaleSelector from '@/components/layout/LocaleSelector';
 import { useToast } from '@/components/ui/Toast';
 import { getApiErrorMessage } from '@/lib/apiErrors';
+import { useTranslation } from '@/providers/I18nProvider';
 
 export default function LoginPage() {
   const login = useLogin();
   const toast = useToast();
+  const { t } = useTranslation();
   const [form, setForm] = useState({ email: '', password: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -19,8 +22,8 @@ export default function LoginPage() {
       onError: (err) => {
         toast.push({
           variant: 'danger',
-          title: 'Falha no login',
-          description: getApiErrorMessage(err, 'Email ou password inválidos.'),
+          title: t('auth.loginFailed'),
+          description: getApiErrorMessage(err, t('auth.loginFailedDesc')),
         });
       },
     });
@@ -28,14 +31,17 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-[#0b0f14] flex items-center justify-center px-4">
+      <div className="absolute right-4 top-4">
+        <LocaleSelector />
+      </div>
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
-          <h1 className="text-2xl font-bold text-emerald-400">SimuTrade</h1>
-          <p className="text-zinc-500 mt-1 text-sm">Entrar na sua conta</p>
+          <h1 className="text-2xl font-bold text-emerald-400">{t('common.appName')}</h1>
+          <p className="text-zinc-500 mt-1 text-sm">{t('auth.loginTitle')}</p>
         </div>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <Input
-            label="Email"
+            label={t('auth.email')}
             type="email"
             placeholder="you@example.com"
             value={form.email}
@@ -44,7 +50,7 @@ export default function LoginPage() {
             disabled={login.isPending}
           />
           <Input
-            label="Password"
+            label={t('auth.password')}
             type="password"
             placeholder="••••••••"
             value={form.password}
@@ -53,13 +59,13 @@ export default function LoginPage() {
             disabled={login.isPending}
           />
           <Button type="submit" loading={login.isPending} className="w-full mt-2">
-            Entrar
+            {t('auth.loginButton')}
           </Button>
         </form>
         <p className="text-center text-sm text-zinc-500 mt-6">
-          Não tem conta?{' '}
+          {t('auth.noAccount')}{' '}
           <Link href="/register" className="text-emerald-400 hover:underline">
-            Criar conta
+            {t('auth.createAccount')}
           </Link>
         </p>
       </div>
