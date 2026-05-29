@@ -6,6 +6,7 @@ import Sidebar from '@/components/layout/Sidebar';
 import AppHeader from '@/components/layout/AppHeader';
 import MarketTickerStrip from '@/components/market/MarketTickerStrip';
 import { useUser } from '@/hooks/useAuth';
+import { ColdStartBanner } from '@/components/layout/ColdStartBanner';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router      = useRouter();
@@ -36,6 +37,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <MarketTickerStrip />
           <main className="mx-auto w-full max-w-7xl px-4 py-8 lg:px-8">
             {children}
+              <ColdStartBanner />
           </main>
         </div>
       </div>
