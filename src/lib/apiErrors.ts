@@ -12,7 +12,7 @@ export function getApiErrorMessage(err: unknown, fallback = 'Ocorreu um erro. Te
 
   if (typeof data === 'string') return data;
   if (data.message) return data.message;
-  if ((data as any).error) return (data as any).error as string;
+  if ((data as { error?: string }).error) return (data as { error?: string }).error as string;
 
   const errors = 'errors' in data ? (data as any).errors : undefined;
   if (errors && typeof errors === 'object') {

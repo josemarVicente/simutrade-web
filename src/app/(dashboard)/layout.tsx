@@ -24,7 +24,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   if (isLoading) {
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
-        <div className="text-zinc-500 text-sm">{t('common.loading')}</div>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 rounded-full border-2 border-zinc-800 border-t-emerald-400 animate-spin" />
+          <span className="text-zinc-500 text-xs tracking-wide">{t('common.loading')}</span>
+        </div>
       </div>
     );
   }

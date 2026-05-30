@@ -77,7 +77,8 @@
     "email": "Email",
     "password": "Password",
     "name": "Nome",
-    "confirmPassword": "Confirmar password"
+    "confirmPassword": "Confirmar password",
+    "checkingSession": "A verificar a sessão..."
   },
   "dashboard": {
     "loading": "A carregar dashboard…"
