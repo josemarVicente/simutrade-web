@@ -44,6 +44,20 @@
     "unavailableDesc": "Não foi possível pesquisar ações."
   },
   "auth": {
+    "slides": {
+      "0": {
+        "heading": "Capturando Momentos,",
+        "subheading": "Criando Memórias"
+      },
+      "1": {
+        "heading": "Acompanhe Seu Portfólio",
+        "subheading": "Com Confiança"
+      },
+      "2": {
+        "heading": "Mercados em Tempo Real",
+        "subheading": "Na Palma da Mão"
+      }
+    },
     "loginTitle": "Entrar na sua conta",
     "loginButton": "Entrar",
     "loginFailed": "Falha no login",

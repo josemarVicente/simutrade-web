@@ -44,6 +44,20 @@
     "unavailableDesc": "Could not search stocks."
   },
   "auth": {
+    "slides": {
+      "0": {
+        "heading": "Capturing Moments,",
+        "subheading": "Creating Memories"
+      },
+      "1": {
+        "heading": "Track Your Portfolio",
+        "subheading": "With Confidence"
+      },
+      "2": {
+        "heading": "Real-Time Markets",
+        "subheading": "At Your Fingertips"
+      }
+    },
     "loginTitle": "Sign in to your account",
     "loginButton": "Sign in",
     "loginFailed": "Login failed",
